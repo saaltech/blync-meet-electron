@@ -171,11 +171,7 @@ function createJitsiMeetWindow() {
     const basePath = isDev ? __dirname : app.getAppPath();
 
     // URL for index.html which will be our entry point.
-    const indexURL = URL.format({
-        pathname: path.resolve(basePath, './build/index.html'),
-        protocol: 'file:',
-        slashes: true
-    });
+    const indexURL = 'https://localhost:8080/'
 
     // Options used when creating the main Jitsi Meet window.
     // Use a preload script in order to provide node specific functionality
