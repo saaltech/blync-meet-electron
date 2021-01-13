@@ -5,6 +5,7 @@ import Spinner from '@atlaskit/spinner';
 import React, { Component } from 'react';
 import type { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 import i18n from '../../../i18n';
 import config from '../../config';
@@ -12,6 +13,7 @@ import { getSetting } from '../../settings';
 
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
+import { createConferenceObjectFromURL } from '../../utils';
 
 const ENABLE_REMOTE_CONTROL = false;
 
@@ -85,6 +87,7 @@ class Home extends Component<Props, State> {
         this._ref = React.createRef();
 
         this._onIframeLoad = this._onIframeLoad.bind(this);
+        this._onExplicitIframeReload = this._onExplicitIframeReload.bind(this);
     }
 
     /**
@@ -94,10 +97,22 @@ class Home extends Component<Props, State> {
      */
     componentDidMount() {
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
-        const serverURL = (this.props.location.state && this.props.location.state.serverURL)
+        const serverURL = /*(this.props.location.state && this.props.location.state.serverURL)
             || this.props._serverURL
-            || config.defaultServerURL;
-        this._loadHome(serverURL);
+            || */ config.defaultServerURL;
+        console.log("this.props.location: ", this.props.location);
+        let homePageParams = "";
+        if(this.props.location && this.props.location.state) {
+
+            if(this.props.location.state.actions) {
+                homePageParams += `actions=${this.props.location.state.actions}&`
+            }
+            if(this.props.location.state.home) {
+                homePageParams += `home=${this.props.location.state.home}&`
+            }
+            
+        }
+        this._loadHome(`${serverURL}${homePageParams ? '?' + homePageParams: ''}`);
     }
 
     /**
@@ -112,6 +127,38 @@ class Home extends Component<Props, State> {
         if (this._api) {
             this._api.dispose();
         }
+    }
+
+    _onExplicitIframeReload: (*) => void;
+
+    /**
+     * Reload iframe with new iframe URL.
+     *
+     * @param {Object} obj - data with serverURL in it.
+     * @returns {void}
+     * @private
+     */
+    _onExplicitIframeReload(obj: Object) {
+        let data = obj.config;
+        console.log("Electron App serverURL -> ", config.defaultServerURL + '/' + data.serverURL);
+        
+        let pathConfig;
+        if(data.room) {
+            pathConfig = createConferenceObjectFromURL(
+                config.defaultServerURL + '/' + data.room);
+        }
+        else {
+            pathConfig = data.options || {};
+        }
+
+        if (!pathConfig) {
+            return;
+        }
+
+        console.log("this.props.dispatch: ", this.props.dispatch);
+        let path = data.room ? '/conference': '/';
+        this.props.dispatch(push('/temp'));
+        this.props.dispatch(push(path, pathConfig));
     }
 
     /**
@@ -152,6 +199,8 @@ class Home extends Component<Props, State> {
             ...options,
             ...urlParameters
         });
+
+        this._api.on('explicitIframeReload', this._onExplicitIframeReload);
 
         const { RemoteControl,
             setupScreenSharingRender,
