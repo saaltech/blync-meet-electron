@@ -13,16 +13,16 @@ export default {
     /**
      * Application name.
      */
-    appName: 'Jitsi Meet',
+    appName: 'Jifmeet',
 
     /**
     * The prefix for application protocol.
     * You will also need to replace this in package.json.
     */
-    appProtocolPrefix: 'jitsi-meet',
+    appProtocolPrefix: 'jifmeet',
 
     /**
-     * The default server URL of Jitsi Meet Deployment that will be used.
+     * The default server URL of Jifmeet Deployment that will be used.
      */
     defaultServerURL: 'https://dev-jifmeet.saal.ai',
 
@@ -34,15 +34,15 @@ export default {
     /**
      * URL to send feedback.
      */
-    feedbackURL: 'mailto:support@jitsi.org',
+    feedbackURL: 'mailto:saal@saal.ai',
 
     /**
      * The URL of Privacy Policy Page.
      */
-    privacyPolicyURL: 'https://jitsi.org/meet/privacy',
+    privacyPolicyURL: '',
 
     /**
      * The URL of Terms and Conditions Page.
      */
-    termsAndConditionsURL: 'https://jitsi.org/meet/terms'
+    termsAndConditionsURL: ''
 };
