@@ -14,6 +14,7 @@ import { getSetting } from '../../settings';
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
 import { createConferenceObjectFromURL } from '../../utils';
+import Loading from '../../always-on-top/Loading';
 
 const ENABLE_REMOTE_CONTROL = false;
 
@@ -100,7 +101,6 @@ class Home extends Component<Props, State> {
         const serverURL = /*(this.props.location.state && this.props.location.state.serverURL)
             || this.props._serverURL
             || */ config.defaultServerURL;
-        console.log("this.props.location: ", this.props.location);
         let homePageParams = "";
         if(this.props.location && this.props.location.state) {
 
@@ -140,7 +140,6 @@ class Home extends Component<Props, State> {
      */
     _onExplicitIframeReload(obj: Object) {
         let data = obj.config;
-        console.log("Electron App serverURL -> ", config.defaultServerURL + '/' + data.serverURL);
         
         let pathConfig;
         if(data.room) {
@@ -238,7 +237,7 @@ class Home extends Component<Props, State> {
         if (this.state.isLoading) {
             return (
                 <LoadingIndicator>
-                    <Spinner size = 'large' />
+                    <Loading />
                 </LoadingIndicator>
             );
         }
