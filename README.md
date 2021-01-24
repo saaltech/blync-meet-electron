@@ -60,8 +60,15 @@ This step will create a draft release in github under releases. Set the appropri
 
 
 ##### DEV/QA/Staging
+Mac
 ```bash
 export WEB_APP_URL=https://dev-jifmeet.saal.ai
+npm run dist
+```
+
+Windows
+```bash
+set WEB_APP_URL=https://dev-jifmeet.saal.ai
 npm run dist
 ```
 
