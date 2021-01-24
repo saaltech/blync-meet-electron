@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ELECTRON_VERSION = require('./package.json').devDependencies.electron;
 
+const WEB_APP_URL
+    = process.env.WEB_APP_URL || 'https://meet.jifmeet.com';
+
 module.exports = {
     // The renderer code rus in BrowserWindow without node support so we must
     // target a web platform.
@@ -73,6 +76,14 @@ module.exports = {
                         expandProps: 'start'
                     }
                 } ]
+            }, {
+                test: /\.js$/,
+                loader: 'string-replace-loader',
+                options: {
+                  search: '%WEB_APP_URL%',
+                  replace: WEB_APP_URL,
+                  flags: 'g'
+                }
             }
         ]
     },

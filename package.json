@@ -1,6 +1,6 @@
 {
   "name": "jifmeet-electron",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "Electron application for Jifmeet",
   "main": "./build/main.js",
   "productName": "Jifmeet",
@@ -9,7 +9,7 @@
     "clean": "rm -rf node_modules build dist",
     "lint": "eslint . && flow",
     "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
-    "dist": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --publish always",
     "postinstall": "patch-package && electron-builder install-app-deps",
     "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-poll"
   },
@@ -17,7 +17,7 @@
     "node": ">=12.0.0"
   },
   "build": {
-    "appId": "com.jifmeet.meet",
+    "appId": "com.jifmeet.meet.desktopapp",
     "productName": "Jifmeet",
     "generateUpdatesFilesForAllChannels": true,
     "files": [
@@ -26,6 +26,10 @@
       "!app",
       "!main.js"
     ],
+    "publish": {
+      "provider": "github",
+      "publishAutoUpdate": true
+    },
     "mac": {
       "artifactName": "jifmeet.${ext}",
       "category": "public.app-category.video",
@@ -36,7 +40,10 @@
       "extendInfo": {
         "NSCameraUsageDescription": "Jifmeet requires access to your camera in order to make video-calls.",
         "NSMicrophoneUsageDescription": "Jifmeet requires access to your microphone in order to make calls (audio/video)."
-      }
+      },
+      "publish": [
+        "github"
+      ]
     },
     "linux": {
       "artifactName": "jifmeet-${arch}.${ext}",
@@ -78,6 +85,10 @@
   "pre-commit": [
     "lint"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/saaltech/blync-meet-electron"
+  },
   "keywords": [
     "jingle",
     "webrtc",
@@ -153,6 +164,7 @@
     "flow-bin": "0.109.0",
     "html-webpack-plugin": "4.0.4",
     "patch-package": "6.2.2",
+    "string-replace-loader": "3.0.1",
     "style-loader": "1.1.3",
     "webpack": "4.42.1",
     "webpack-cli": "3.3.11"
