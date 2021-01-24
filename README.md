@@ -51,7 +51,7 @@ SHOW_DEV_TOOLS=true npm start
 
 or from the application `--show-dev-tools` command line flag.
 
-#### Building the distribution
+## Building the distribution
 This step will create a draft release in github under releases. Set the appropriate version in package.json before doing so
 
 ##### Requirements
