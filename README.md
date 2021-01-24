@@ -56,6 +56,11 @@ or from the application `--show-dev-tools` command line flag.
 #### Building the distribution
 This step will create a draft release in github under releases. Set the appropriate version in package.json before doing so
 
+##### Requirements
+1. GH_TOKEN(Github token): We will need this token to be set in bash_profile(mac) and environment variable(windows) to publish the distribution to this repo's release page.
+2. [Code signing](https://www.electron.build/code-signing) for auto updates/downloads
+
+
 ##### DEV/QA/Staging
 ```bash
 export WEB_APP_URL=https://dev-jifmeet.saal.ai
