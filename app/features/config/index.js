@@ -24,7 +24,7 @@ export default {
     /**
      * The default server URL of Jifmeet Deployment that will be used.
      */
-    defaultServerURL: 'https://dev-jifmeet.saal.ai',
+    defaultServerURL: '%WEB_APP_URL%', // will be replaced in npm build/start command
 
     /**
      * The default server Timeout in seconds.
