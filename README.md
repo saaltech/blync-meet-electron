@@ -16,8 +16,6 @@ Desktop application for Jifmeet built with Electron.
 
 ## Development
 
-<details><summary>Show building instructions</summary>
-
 #### Installing dependencies
 
 Install Node.js 12 first (or if you use [nvm](https://github.com/nvm-sh/nvm), switch to Node.js 12 by running `nvm use`).
@@ -72,8 +70,6 @@ npm run dist
 ```bash
 npm run dist
 ```
-
-</details>
 
 ## Known issues
 
