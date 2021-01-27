@@ -114,6 +114,7 @@ class Conference extends Component<Props, State> {
 
         this._onIframeLoad = this._onIframeLoad.bind(this);
         this._onVideoConferenceEnded = this._onVideoConferenceEnded.bind(this);
+        this._onExplicitIframeReload = this._onExplicitIframeReload.bind(this);
     }
 
     /**
@@ -181,6 +182,37 @@ class Conference extends Component<Props, State> {
         }
     }
 
+    _onExplicitIframeReload: (*) => void;
+
+    /**
+     * Reload iframe with new iframe URL.
+     *
+     * @param {Object} obj - data with serverURL in it.
+     * @returns {void}
+     * @private
+     */
+    _onExplicitIframeReload(obj: Object) {
+        let data = obj.config;
+        
+        let pathConfig;
+        if(data.room) {
+            pathConfig = createConferenceObjectFromURL(
+                config.defaultServerURL + '/' + data.room);
+        }
+        else {
+            pathConfig = data.options || {};
+        }
+
+        if (!pathConfig) {
+            return;
+        }
+
+        // console.log("this.props.dispatch: ", this.props.dispatch);
+        let path = data.room ? '/conference': '/';
+        this.props.dispatch(push('/temp'));
+        this.props.dispatch(push(path, pathConfig));
+    }
+
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -228,6 +260,7 @@ class Conference extends Component<Props, State> {
             ...urlParameters
         });
 
+        this._api.on('explicitIframeReload', this._onExplicitIframeReload);
 
         this._api.on('suspendDetected', this._onVideoConferenceEnded);
         this._api.on('readyToClose', this._onVideoConferenceEnded);
