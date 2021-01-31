@@ -63,13 +63,26 @@ This step will create a draft release in github under releases. Set the appropri
 Mac
 ```bash
 export WEB_APP_URL=https://dev-jifmeet.saal.ai
-npm run dist
 ```
 
 Windows
 ```bash
 set WEB_APP_URL=https://dev-jifmeet.saal.ai
-npm run dist
+```
+
+For Dev
+```bash
+npm run dist-dev
+```
+
+For QA
+```bash
+npm run dist-qa
+```
+
+For Pre-prod
+```bash
+npm run dist-preprod
 ```
 
 ##### Production
