@@ -10,6 +10,10 @@
     "lint": "eslint . && flow",
     "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
     "dist": "npm run build && electron-builder --publish always",
+    "dist-dev": "npm run non-prod-dist",
+    "dist-qa": "npm run non-prod-dist",
+    "dist-preprod": "npm run non-prod-dist",
+    "non-prod-dist": "npm run build && electron-builder",
     "postinstall": "patch-package && electron-builder install-app-deps",
     "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-poll"
   },
