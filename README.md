@@ -70,17 +70,17 @@ Windows
 set WEB_APP_URL=https://dev-jifmeet.saal.ai
 ```
 
-For Dev
+For Dev build/packaging (via abr)
 ```bash
 npm run dist-dev
 ```
 
-For QA
+For QA build/packaging (via abr)
 ```bash
 npm run dist-qa
 ```
 
-For Pre-prod
+For Pre-prod build/packaging (via abr)
 ```bash
 npm run dist-preprod
 ```
