@@ -157,6 +157,15 @@ function createJitsiMeetWindow() {
     // Application menu.
     setApplicationMenu();
 
+    // set feedURL for testing the private repo
+    /*autoUpdater.setFeedURL({
+        provider: 'github',
+        repo: 'blync-meet-electron',
+        owner: 'saaltech',
+        private: true,
+        token: '<token>'
+    })*/
+
     // Check for Updates.
     autoUpdater.checkForUpdatesAndNotify();
 
@@ -194,7 +203,7 @@ function createJitsiMeetWindow() {
             enableBlinkFeatures: 'RTCInsertableStreams',
             enableRemoteModule: true,
             nativeWindowOpen: true,
-            nodeIntegration: false,
+            nodeIntegration: true,
             preload: path.resolve(basePath, './build/preload.js')
         }
     };
