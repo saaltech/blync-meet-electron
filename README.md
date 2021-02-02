@@ -26,6 +26,8 @@ Install Node.js 12 first (or if you use [nvm](https://github.com/nvm-sh/nvm), sw
 npm install --global --production windows-build-tools
 npm config set msvs_version 2017
 ```
+
+Add python.exe path to the `Path` system env variable (if not already present) 
 </details>
 
 Install all required packages:
