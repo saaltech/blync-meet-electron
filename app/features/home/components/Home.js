@@ -13,7 +13,7 @@ import { getSetting } from '../../settings';
 
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
-import { createConferenceObjectFromURL } from '../../utils';
+import { createConferenceObjectFromURL, getServerURL } from '../../utils';
 import Loading from '../../always-on-top/Loading';
 
 const ENABLE_REMOTE_CONTROL = false;
@@ -97,10 +97,21 @@ class Home extends Component<Props, State> {
      * @returns {void}
      */
     componentDidMount() {
+
+        const receiveMessage = (evt) => {
+            if(evt.data.syncSettingsStore) {
+               // Save the settings received from internal iframe app into Electron localStorage
+               console.log('==> Setting Data received: ', evt.data.syncSettingsStore);
+               localStorage.setItem('settingDetail', evt.data.syncSettingsStore);
+            }
+       }
+
+       window.addEventListener('message', receiveMessage, false);
+
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
         const serverURL = /*(this.props.location.state && this.props.location.state.serverURL)
             || this.props._serverURL
-            || */ config.defaultServerURL;
+            || */ getServerURL();
         let homePageParams = "";
         if(this.props.location && this.props.location.state) {
 
@@ -144,7 +155,7 @@ class Home extends Component<Props, State> {
         let pathConfig;
         if(data.room) {
             pathConfig = createConferenceObjectFromURL(
-                config.defaultServerURL + '/' + data.room);
+                getServerURL() + '/' + data.room);
         }
         else {
             pathConfig = data.options || {};
@@ -154,7 +165,7 @@ class Home extends Component<Props, State> {
             return;
         }
 
-        console.log("this.props.dispatch: ", this.props.dispatch);
+        // console.log("this.props.dispatch: ", this.props.dispatch);
         let path = data.room ? '/conference': '/';
         this.props.dispatch(push('/temp'));
         this.props.dispatch(push(path, pathConfig));

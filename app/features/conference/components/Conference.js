@@ -15,6 +15,7 @@ import { conferenceEnded, conferenceJoined } from '../actions';
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
 import Loading from '../../always-on-top/Loading';
+import { createConferenceObjectFromURL, getServerURL } from '../../utils';
 
 const ENABLE_REMOTE_CONTROL = false;
 
@@ -127,7 +128,7 @@ class Conference extends Component<Props, State> {
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
         const serverURL = this.props.location.state.serverURL
             || this.props._serverURL
-            || config.defaultServerURL;
+            || getServerURL();
 
         this._conference = {
             room,
@@ -197,7 +198,7 @@ class Conference extends Component<Props, State> {
         let pathConfig;
         if(data.room) {
             pathConfig = createConferenceObjectFromURL(
-                config.defaultServerURL + '/' + data.room);
+                getServerURL() + '/' + data.room);
         }
         else {
             pathConfig = data.options || {};

@@ -1,5 +1,7 @@
 /* global process */
 
+import config from "../config";
+
 // @flow
 
 
@@ -39,6 +41,22 @@ export function openExternalLink(link: string) {
     window.jitsiNodeAPI.openExternalLink(link);
 }
 
+/**
+ * Returns the entire settings object from window.localStorage
+ * @returns {Object}
+ */
+export function getSettings() {
+    return JSON.parse(window.localStorage.getItem('settingDetail') || "{}");
+}
+
+/**
+ * Returns the serverURL to use
+ * @returns {Object}
+ */
+export function getServerURL() {
+    let baseUrl = getSettings().serverUrl || config.defaultServerURL;
+    return baseUrl;
+}
 
 /**
  * Get URL, extract room name from it and create a Conference object.
