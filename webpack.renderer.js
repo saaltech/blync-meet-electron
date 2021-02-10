@@ -88,7 +88,7 @@ module.exports = {
         ]
     },
     externals: [ {
-        'jitsi-meet-electron-utils': 'require(\'jitsi-meet-electron-utils\')'
+        'jifmeet-electron-utils': 'require(\'jifmeet-electron-utils\')'
     } ],
     resolve: {
         modules: [

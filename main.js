@@ -17,7 +17,7 @@ const {
     setupAlwaysOnTopMain,
     setupPowerMonitorMain,
     setupScreenSharingMain
-} = require('jitsi-meet-electron-utils');
+} = require('jifmeet-electron-utils');
 const path = require('path');
 const URL = require('url');
 const config = require('./app/features/config');
