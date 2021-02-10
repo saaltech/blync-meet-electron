@@ -37,6 +37,17 @@ class App extends Component<*> {
      * @returns {void}
      */
     componentDidMount() {
+
+        const receiveMessage = (evt) => {
+            if (evt.data.syncSettingsStore) {
+                // Save the settings received from internal iframe app into Electron localStorage
+                console.log('==> Setting Data received: ', evt.data.syncSettingsStore);
+                localStorage.setItem('settingDetail', evt.data.syncSettingsStore);
+            }
+        }
+
+        window.addEventListener('message', receiveMessage, false);
+
         // start listening on this events
         window.jitsiNodeAPI.ipc.on('protocol-data-msg', this._listenOnProtocolMessages);
 

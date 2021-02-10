@@ -229,7 +229,7 @@ class Conference extends Component<Props, State> {
 
     /**
      * Load the conference by creating the iframe element in this component
-     * and attaching utils from jitsi-meet-electron-utils.
+     * and attaching utils from jifmeet-electron-utils.
      *
      * @returns {void}
      */

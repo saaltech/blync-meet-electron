@@ -97,17 +97,6 @@ class Home extends Component<Props, State> {
      * @returns {void}
      */
     componentDidMount() {
-
-        const receiveMessage = (evt) => {
-            if(evt.data.syncSettingsStore) {
-               // Save the settings received from internal iframe app into Electron localStorage
-               console.log('==> Setting Data received: ', evt.data.syncSettingsStore);
-               localStorage.setItem('settingDetail', evt.data.syncSettingsStore);
-            }
-       }
-
-       window.addEventListener('message', receiveMessage, false);
-
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
         const serverURL = /*(this.props.location.state && this.props.location.state.serverURL)
             || this.props._serverURL
@@ -186,7 +175,7 @@ class Home extends Component<Props, State> {
 
     /**
      * Load the Home by creating the iframe element in this component
-     * and attaching utils from jitsi-meet-electron-utils.
+     * and attaching utils from jifmeet-electron-utils.
      *
      * @returns {void}
      */
