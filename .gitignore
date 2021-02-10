@@ -4,7 +4,6 @@
 .sync-config.cson
 .electron
 .electron-gyp
-.npmrc
 .idea
 .jshintignore
 .jshintrc
