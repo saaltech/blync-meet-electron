@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../../resources/images/logo.svg';
+import Logo from '../../../resources/images/loader.svg';
 import styled, { keyframes } from 'styled-components'
 
 const rotate = keyframes`
@@ -19,7 +19,7 @@ margin:auto;
 
 function Loading(props) {
     return (
-        <StyledLogo height={150} />
+        <StyledLogo height={40} />
     )
 }
 
