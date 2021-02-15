@@ -24,6 +24,7 @@
     "appId": "com.jifmeet.meet.desktopapp",
     "productName": "Jifmeet",
     "generateUpdatesFilesForAllChannels": true,
+    "afterSign": "scripts/notarize.js",
     "files": [
       "**/*",
       "resources",
