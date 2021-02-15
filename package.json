@@ -73,7 +73,7 @@
           "target": "nsis"
         }
       ],
-      "certificateFile": "c:/users/jenkins/.ssh/saal-cs-cert.pfx",
+      "certificateFile": "C:\\Users\\jenkins\\.ssh\\saal-cs-cert.pfx",
       "signingHashAlgorithms": ["sha256"],
       "publisherName": "SAAL Operating Systems - Sole Proprietorship LLC",
       "signAndEditExecutable": true
