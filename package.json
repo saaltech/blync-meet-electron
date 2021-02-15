@@ -34,9 +34,6 @@
       "provider": "github",
       "publishAutoUpdate": true
     },
-    "electronDownload": {
-      "cache": "C:\\Users\\jenkins\\AppData\\Local\\electron-builder\\Cache"
-    },
     "mac": {
       "artifactName": "jifmeet.${ext}",
       "category": "public.app-category.video",
