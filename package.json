@@ -73,7 +73,7 @@
           "target": "nsis"
         }
       ],
-      "certificateSubjectName": "SAAL Operating Systems - Sole Proprietorship LLC",
+      "certificateFile": "file://c:/users/jenkins/.ssh/saal-cs-cert.pfx",
       "signingHashAlgorithms": ["sha256"],
       "publisherName": "SAAL Operating Systems - Sole Proprietorship LLC",
       "signAndEditExecutable": true
