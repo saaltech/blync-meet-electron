@@ -103,3 +103,4 @@ A warning will show up mentioning the app is unsigned upon first install. This i
 
 On macOS Catalina a warning will be displayed on first install. The app won't open unless "open" is pressed. This dialog is only shown once.
 Builtin auto-updates are not yet handled in macOS due to unsigned build.
+
