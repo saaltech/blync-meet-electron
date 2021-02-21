@@ -73,6 +73,8 @@ type State = {
      * If the conference is loading or not.
      */
     isLoading: boolean;
+
+    loadingMsg: string;
 };
 
 /**
@@ -108,7 +110,8 @@ class Conference extends Component<Props, State> {
         super();
 
         this.state = {
-            isLoading: true
+            isLoading: true,
+            loadingMsg: ''
         };
 
         this._ref = React.createRef();
@@ -129,6 +132,12 @@ class Conference extends Component<Props, State> {
         const serverURL = this.props.location.state.serverURL
             || this.props._serverURL
             || getServerURL();
+
+        if(this.props.location.state.loadingMsg) {
+            this.setState({
+                loadingMsg: this.props.location.state.loadingMsg
+            });
+        }
 
         this._conference = {
             room,
@@ -202,6 +211,12 @@ class Conference extends Component<Props, State> {
         }
         else {
             pathConfig = data.options || {};
+        }
+        
+        if (data.loadingMsg) {
+            this.setState({
+                loadingMsg: data.loadingMsg
+            })
         }
 
         if (!pathConfig) {
@@ -308,7 +323,7 @@ class Conference extends Component<Props, State> {
         if (this.state.isLoading) {
             return (
                 <LoadingIndicator>
-                    <Loading />
+                    <Loading message={this.state.loadingMsg} />
                 </LoadingIndicator>
             );
         }
@@ -326,7 +341,8 @@ class Conference extends Component<Props, State> {
         this.props.dispatch(push('/', {
             error: event.type === 'error',
             room,
-            serverURL
+            serverURL,
+            loadingMsg: event.options && event.options.loadingMsg
         }));
     }
 
@@ -339,7 +355,7 @@ class Conference extends Component<Props, State> {
      * @returns {void}
      * @private
      */
-    _onVideoConferenceEnded(event: Event) {
+    _onVideoConferenceEnded(event: Event, options) {
         this.props.dispatch(conferenceEnded(this._conference));
         this._navigateToHome(event);
     }
