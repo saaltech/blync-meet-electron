@@ -9,7 +9,7 @@ import type { Dispatch } from 'redux';
 import { compose } from 'redux';
 
 import config from '../../config';
-import { normalizeServerURL } from '../../utils';
+import { normalizeServerURL, getServerURL } from '../../utils';
 
 import { setServerURL } from '../actions';
 import { Form } from '../styled';
@@ -83,7 +83,7 @@ class ServerURLField extends Component<Props, State> {
                     label = { t('settings.serverUrl') }
                     onBlur = { this._onServerURLSubmit }
                     onChange = { this._onServerURLChange }
-                    placeholder = { config.defaultServerURL }
+                    placeholder = { getServerURL() }
                     shouldFitContainer = { true }
                     type = 'text'
                     value = { this.state.serverURL } />

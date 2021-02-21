@@ -13,7 +13,7 @@ import { getSetting } from '../../settings';
 
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
-import { createConferenceObjectFromURL } from '../../utils';
+import { createConferenceObjectFromURL, getServerURL } from '../../utils';
 import Loading from '../../always-on-top/Loading';
 
 const ENABLE_REMOTE_CONTROL = false;
@@ -52,6 +52,8 @@ type State = {
      * If the Home is loading or not.
      */
     isLoading: boolean;
+
+    loadingMsg: string;
 };
 
 /**
@@ -82,7 +84,8 @@ class Home extends Component<Props, State> {
         super();
 
         this.state = {
-            isLoading: true
+            isLoading: true,
+            loadingMsg: ''
         };
 
         this._ref = React.createRef();
@@ -100,7 +103,7 @@ class Home extends Component<Props, State> {
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
         const serverURL = /*(this.props.location.state && this.props.location.state.serverURL)
             || this.props._serverURL
-            || */ config.defaultServerURL;
+            || */ getServerURL();
         let homePageParams = "";
         if(this.props.location && this.props.location.state) {
 
@@ -109,6 +112,12 @@ class Home extends Component<Props, State> {
             }
             if(this.props.location.state.home) {
                 homePageParams += `home=${this.props.location.state.home}&`
+            }
+
+            if(this.props.location.state.loadingMsg) {
+                this.setState({
+                    loadingMsg: this.props.location.state.loadingMsg
+                });
             }
             
         }
@@ -144,17 +153,24 @@ class Home extends Component<Props, State> {
         let pathConfig;
         if(data.room) {
             pathConfig = createConferenceObjectFromURL(
-                config.defaultServerURL + '/' + data.room);
+                getServerURL() + '/' + data.room);
         }
         else {
             pathConfig = data.options || {};
+        }
+
+        if (data.loadingMsg) {
+            Object.assign(pathConfig, { loadingMsg: data.loadingMsg});
+            this.setState({
+                loadingMsg: data.loadingMsg
+            })
         }
 
         if (!pathConfig) {
             return;
         }
 
-        console.log("this.props.dispatch: ", this.props.dispatch);
+        // console.log("this.props.dispatch: ", this.props.dispatch);
         let path = data.room ? '/conference': '/';
         this.props.dispatch(push('/temp'));
         this.props.dispatch(push(path, pathConfig));
@@ -175,7 +191,7 @@ class Home extends Component<Props, State> {
 
     /**
      * Load the Home by creating the iframe element in this component
-     * and attaching utils from jitsi-meet-electron-utils.
+     * and attaching utils from jifmeet-electron-utils.
      *
      * @returns {void}
      */
@@ -237,7 +253,7 @@ class Home extends Component<Props, State> {
         if (this.state.isLoading) {
             return (
                 <LoadingIndicator>
-                    <Loading />
+                    <Loading message={this.state.loadingMsg} />
                 </LoadingIndicator>
             );
         }

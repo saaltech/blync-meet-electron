@@ -1,6 +1,6 @@
 {
   "name": "jifmeet-electron",
-  "version": "0.0.4",
+  "version": "0.0.42",
   "description": "Electron application for Jifmeet",
   "main": "./build/main.js",
   "productName": "Jifmeet",
@@ -39,6 +39,7 @@
       "category": "public.app-category.video",
       "darkModeSupport": true,
       "hardenedRuntime": true,
+      "gatekeeperAssess": false,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist",
       "extendInfo": {
@@ -71,7 +72,13 @@
           ],
           "target": "nsis"
         }
-      ]
+      ],
+      "certificateFile": "C:\\Users\\jenkins\\.ssh\\saal-cs-cert-withkey.pfx",
+      "signingHashAlgorithms": [
+        "sha256"
+      ],
+      "publisherName": "SAAL Operating Systems - Sole Proprietorship LLC",
+      "signAndEditExecutable": true
     },
     "directories": {
       "buildResources": "resources"
@@ -116,6 +123,7 @@
     "@atlaskit/spinner": "9.0.13",
     "@atlaskit/theme": "7.0.1",
     "@atlaskit/toggle": "5.0.14",
+    "dotenv": "^8.2.0",
     "electron-context-menu": "2.0.1",
     "electron-debug": "3.0.1",
     "electron-is-dev": "1.2.0",
@@ -126,7 +134,7 @@
     "electron-window-state": "5.0.3",
     "history": "4.10.1",
     "i18next": "19.4.5",
-    "jitsi-meet-electron-utils": "github:jitsi/jitsi-meet-electron-utils#v2.0.12",
+    "jifmeet-electron-utils": "1.0.3",
     "js-utils": "github:jitsi/js-utils#cf11996bd866fdb47326c59a5d3bc24be17282d4",
     "moment": "2.23.0",
     "mousetrap": "1.6.2",
@@ -157,6 +165,7 @@
     "css-loader": "3.5.0",
     "electron": "10.2.0",
     "electron-builder": "22.7.0",
+    "electron-notarize": "^1.0.0",
     "electron-react-devtools": "0.5.3",
     "eslint": "6.5.1",
     "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.2",
