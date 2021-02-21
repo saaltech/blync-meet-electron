@@ -14,12 +14,22 @@ const rotate = keyframes`
 const StyledLogo = styled(Logo)`
 animation: ${rotate} infinite 20s linear;
 display:block;
-margin:auto;
+
 `
+//margin:auto;
+
 
 function Loading(props) {
     return (
+      <>
         <StyledLogo height={40} />
+        <div style={{
+          marginTop: '30px',
+          color: '#aaaaaa'
+        }}> 
+          {props.message || 'Please wait...'}
+        </div>
+      </>
     )
 }
 
