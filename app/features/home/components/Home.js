@@ -113,6 +113,9 @@ class Home extends Component<Props, State> {
             if(this.props.location.state.home) {
                 homePageParams += `home=${this.props.location.state.home}&`
             }
+            if(this.props.location.state.invalidMeetingId) {
+                homePageParams += `invalidMeetingId=${this.props.location.state.invalidMeetingId}&`
+            }
 
             if(this.props.location.state.loadingMsg) {
                 this.setState({
