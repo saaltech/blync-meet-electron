@@ -25,6 +25,9 @@
     "productName": "Jifmeet",
     "generateUpdatesFilesForAllChannels": true,
     "afterSign": "scripts/notarize.js",
+    "dmg": {
+      "sign": false
+    },
     "files": [
       "**/*",
       "resources",
