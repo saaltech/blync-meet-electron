@@ -1,6 +1,6 @@
 {
   "name": "jifmeet-electron",
-  "version": "1.0.1",
+  "version": "1.0.13",
   "description": "Electron application for Jifmeet",
   "main": "./build/main.js",
   "productName": "Jifmeet",
@@ -24,6 +24,9 @@
     "appId": "com.jifmeet.meet.desktopapp",
     "productName": "Jifmeet",
     "generateUpdatesFilesForAllChannels": true,
+    "dmg": {
+      "sign": false
+    },
     "files": [
       "**/*",
       "resources",
