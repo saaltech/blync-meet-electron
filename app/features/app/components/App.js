@@ -92,6 +92,7 @@ class App extends Component<*> {
         }
 
         // change route when we are notified
+        this.props.dispatch(push('/temp'));
         this.props.dispatch(push('/conference', conference));
     }
 
