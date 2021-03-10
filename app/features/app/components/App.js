@@ -10,7 +10,7 @@ import { ConnectedRouter as Router, push } from 'react-router-redux';
 import { Conference } from '../../conference';
 import config from '../../config';
 import { history } from '../../router';
-import { createConferenceObjectFromURL } from '../../utils';
+import { createConferenceObjectFromURL, getServerURL } from '../../utils';
 import { Home } from '../../home';
 
 /**
@@ -84,7 +84,7 @@ class App extends Component<*> {
             inputURL = inputURL.substr(0, inputURL.length - 1); // eslint-disable-line no-param-reassign
         }
 
-        const conference = createConferenceObjectFromURL(inputURL);
+        const conference = createConferenceObjectFromURL(getServerURL() + '/' + inputURL);
 
         // Don't navigate if conference couldn't be created
         if (!conference) {
