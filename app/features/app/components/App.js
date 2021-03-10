@@ -80,6 +80,10 @@ class App extends Component<*> {
      */
     _listenOnProtocolMessages(event, inputURL: string) {
         // Remove trailing slash if one exists.
+        if(inputURL) {
+            // to fix windows OS related issue. 
+            inputURL = inputURL.replace("/?", "?");
+        }
         if (inputURL.substr(-1) === '/') {
             inputURL = inputURL.substr(0, inputURL.length - 1); // eslint-disable-line no-param-reassign
         }
