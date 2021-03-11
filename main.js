@@ -364,3 +364,12 @@ ipcMain.on('renderer-ready', () => {
             .send('protocol-data-msg', protocolDataForFrontApp);
     }
 });
+
+/**
+ * This is to notify main.js [this] that front app has asked to trigger
+ * screen share if it was denied before.
+ */
+ipcMain.on('explicit-screenshare-init', () => {
+    setupScreenSharingMain(mainWindow, config.default.appName, pkgJson.build.appId);
+});
+

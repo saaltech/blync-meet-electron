@@ -5,7 +5,7 @@ const jitsiMeetElectronUtils = require('jifmeet-electron-utils');
 const { openExternalLink } = require('../features/utils/openExternalLink');
 
 
-const whitelistedIpcChannels = [ 'protocol-data-msg', 'renderer-ready' ];
+const whitelistedIpcChannels = [ 'protocol-data-msg', 'renderer-ready', 'explicit-screenshare-init' ];
 
 window.jitsiNodeAPI = {
     createElectronStorage,
