@@ -199,6 +199,9 @@ class Home extends Component<Props, State> {
      * @returns {void}
      */
     _loadHome(serverURL) {
+        //ask for screenshare permission once done it wont be asked again
+        window.jitsiNodeAPI.ipc.send('explicit-screenshare-init');
+
         const url = new URL(serverURL);
         const host = serverURL.replace(/https?:\/\//, '');
         const searchParameters = Object.fromEntries(url.searchParams);
