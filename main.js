@@ -4,8 +4,11 @@ const {
     BrowserWindow,
     Menu,
     app,
-    ipcMain
+    ipcMain,
+    systemPreferences,
+    dialog
 } = require('electron');
+
 const contextMenu = require('electron-context-menu');
 const debug = require('electron-debug');
 const isDev = require('electron-is-dev');
@@ -18,6 +21,7 @@ const {
     setupPowerMonitorMain,
     setupScreenSharingMain
 } = require('jifmeet-electron-utils');
+const { openSystemPreferences } = require('electron-util');
 const path = require('path');
 const URL = require('url');
 const config = require('./app/features/config');
@@ -215,7 +219,6 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
-    setupScreenSharingMain(mainWindow, config.default.appName, pkgJson.build.appId);
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
@@ -228,7 +231,62 @@ function createJitsiMeetWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
-    mainWindow.once('ready-to-show', () => {
+    mainWindow.once('ready-to-show', async () => {
+        let options = {
+            type: 'info',
+            buttons: ['Open system preferences']
+        };
+        
+        let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
+        let micPermission = systemPreferences.getMediaAccessStatus('microphone');
+
+        // Can be one of the following 
+        // 'not-determined', 'granted', 'denied', 'restricted' or 'unknown'
+        // Windows OS doesnt need permission to access camera, microphone or screen per app.
+        // Its a device leel setting on windows.
+       
+        if(cameraPermission !== 'granted') {
+            let success = await systemPreferences.askForMediaAccess('camera');
+            if(!(success === true || success === 'granted')) {
+                mainWindow.show();
+                options.message = "Jifmeet would like to access the camera";
+                options.detail = "This is needed to attend meetings";
+                dialog.showMessageBox(mainWindow, options)
+                .then(() => {
+                    openSystemPreferences('security', 'Privacy_Camera');
+                    mainWindow.close();
+                });
+                return;
+            }
+        }
+
+        if(micPermission !== 'granted') {
+            let success = await systemPreferences.askForMediaAccess('microphone');
+            if(!(success === true  || success === 'granted')) {
+                mainWindow.show();
+                options.message = "Jifmeet would like to access the microphone";
+                options.detail = "This is needed to attend meetings";
+                dialog.showMessageBox(mainWindow, options)
+                .then(() => {
+                    openSystemPreferences('security', 'Privacy_Microphone');
+                    mainWindow.close();
+                });
+                return;
+            }
+        }
+        
+        if(!setupScreenSharingMain.hasPermission()) {
+            mainWindow.show();
+            options.message = "Jifmeet would like to access screen capturing capability";
+            options.detail = "This is needed to be able to share screen in the meetings";
+            dialog.showMessageBox(mainWindow, options)
+            .then(() => {
+                setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+                mainWindow.close();
+            });
+            return;
+        }
+        
         mainWindow.show();
     });
 
@@ -370,6 +428,5 @@ ipcMain.on('renderer-ready', () => {
  * screen share if it was denied before.
  */
 ipcMain.on('explicit-screenshare-init', () => {
-    setupScreenSharingMain(mainWindow, config.default.appName, pkgJson.build.appId);
+    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
 });
-
