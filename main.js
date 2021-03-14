@@ -250,7 +250,7 @@ function createJitsiMeetWindow() {
             if(!(success === true || success === 'granted')) {
                 mainWindow.show();
                 options.message = "Jifmeet would like to access the camera";
-                options.detail = "This is needed to attend meetings";
+                options.detail = "Jifmeet requires access to your camera in order to make video-calls.";
                 dialog.showMessageBox(mainWindow, options)
                 .then(() => {
                     openSystemPreferences('security', 'Privacy_Camera');
@@ -265,7 +265,7 @@ function createJitsiMeetWindow() {
             if(!(success === true  || success === 'granted')) {
                 mainWindow.show();
                 options.message = "Jifmeet would like to access the microphone";
-                options.detail = "This is needed to attend meetings";
+                options.detail = "Jifmeet requires access to your microphone in order to make calls (audio/video).";
                 dialog.showMessageBox(mainWindow, options)
                 .then(() => {
                     openSystemPreferences('security', 'Privacy_Microphone');
@@ -277,11 +277,12 @@ function createJitsiMeetWindow() {
         
         if(!setupScreenSharingMain.hasPermission()) {
             mainWindow.show();
-            options.message = "Jifmeet would like to access screen capturing capability";
-            options.detail = "This is needed to be able to share screen in the meetings";
+            options.message = "Jifmeet would like to have screen capturing/recording capability";
+            options.detail = "This is needed to be able to share screen in the meetings.";
             dialog.showMessageBox(mainWindow, options)
             .then(() => {
-                setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+                openSystemPreferences('security', 'Privacy_ScreenCapture');
+                //setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
                 mainWindow.close();
             });
             return;
