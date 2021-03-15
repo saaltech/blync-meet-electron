@@ -282,7 +282,7 @@ function createJitsiMeetWindow() {
             dialog.showMessageBox(mainWindow, options)
             .then(() => {
                 openSystemPreferences('security', 'Privacy_ScreenCapture');
-                //setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+                setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
                 mainWindow.close();
             });
             return;
