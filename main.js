@@ -219,6 +219,7 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
+    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
@@ -282,7 +283,6 @@ function createJitsiMeetWindow() {
             dialog.showMessageBox(mainWindow, options)
             .then(() => {
                 openSystemPreferences('security', 'Privacy_ScreenCapture');
-                setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
                 mainWindow.close();
             });
             return;
