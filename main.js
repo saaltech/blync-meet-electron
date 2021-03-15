@@ -238,7 +238,10 @@ function createJitsiMeetWindow() {
     mainWindow.once('ready-to-show', async () => {
         let options = {
             type: 'info',
-            buttons: ['Open system preferences']
+            buttons: ['Quit', 'Open system preferences'],
+            defaultId: 1,
+            cancelId: 0,
+            detail: "Jifmeet requires access to the camera, microphone, and permission to record the screen for the video call to work efficiently."
         };
         
         let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
@@ -254,11 +257,17 @@ function createJitsiMeetWindow() {
             if(!(success === true || success === 'granted')) {
                 mainWindow.show();
                 options.message = "Jifmeet would like to access the camera";
-                options.detail = "Jifmeet requires access to your camera in order to make video-calls.";
                 dialog.showMessageBox(mainWindow, options)
-                .then(() => {
-                    openSystemPreferences('security', 'Privacy_Camera');
-                    mainWindow.close();
+                .then(result => {
+                    if(result.response === 0) {
+                        // quit app if `Quit is clicked`
+                        app.quit();
+                        process.exit(0);
+                    }
+                    else {
+                        openSystemPreferences('security', 'Privacy_Camera');
+                        mainWindow.close();
+                    }
                 });
                 return;
             }
@@ -269,11 +278,17 @@ function createJitsiMeetWindow() {
             if(!(success === true  || success === 'granted')) {
                 mainWindow.show();
                 options.message = "Jifmeet would like to access the microphone";
-                options.detail = "Jifmeet requires access to your microphone in order to make calls (audio/video).";
                 dialog.showMessageBox(mainWindow, options)
-                .then(() => {
-                    openSystemPreferences('security', 'Privacy_Microphone');
-                    mainWindow.close();
+                .then(result => {
+                    if(result.response === 0) {
+                        // quit app if `Quit is clicked`
+                        app.quit();
+                        process.exit(0);
+                    }
+                    else {
+                        openSystemPreferences('security', 'Privacy_Microphone');
+                        mainWindow.close();
+                    }
                 });
                 return;
             }
@@ -281,12 +296,18 @@ function createJitsiMeetWindow() {
         
         if(!setupScreenSharingMain.hasPermission()) {
             mainWindow.show();
-            options.message = "Jifmeet would like to have screen capturing/recording capability";
-            options.detail = "This is needed to be able to share screen in the meetings.";
+            options.message = "Jifmeet would like to have access to the screen capturing/recording capability";
             dialog.showMessageBox(mainWindow, options)
-            .then(() => {
-                openSystemPreferences('security', 'Privacy_ScreenCapture');
-                mainWindow.close();
+            .then(result => {
+                if(result.response === 0) {
+                    // quit app if `Quit is clicked`
+                    app.quit();
+                    process.exit(0);
+                }
+                else {
+                    openSystemPreferences('security', 'Privacy_ScreenCapture');
+                    mainWindow.close();
+                }
             });
             return;
         }
