@@ -219,7 +219,10 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
-    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+    if(setupScreenSharingMain.hasPermission()) {
+        setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+    }
+    
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
