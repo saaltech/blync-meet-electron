@@ -241,7 +241,7 @@ function createJitsiMeetWindow() {
             buttons: ['Quit', 'Open system preferences'],
             defaultId: 1,
             cancelId: 0,
-            detail: "Jifmeet requires access to the camera, microphone, and permission to record the screen for the video call to work efficiently."
+            detail: "Jifmeet requires access to the camera, microphone, and permission to record the screen for the video call to work effectively."
         };
         
         let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
