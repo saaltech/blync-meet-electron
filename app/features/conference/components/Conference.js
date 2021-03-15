@@ -119,6 +119,7 @@ class Conference extends Component<Props, State> {
         this._onIframeLoad = this._onIframeLoad.bind(this);
         this._onVideoConferenceEnded = this._onVideoConferenceEnded.bind(this);
         this._onExplicitIframeReload = this._onExplicitIframeReload.bind(this);
+        // this._onExplicitScreenshareInit = this._onExplicitScreenshareInit.bind(this);
     }
 
     /**
@@ -192,6 +193,21 @@ class Conference extends Component<Props, State> {
         }
     }
 
+    // _onExplicitScreenshareInit: (*) => void;
+
+    /**
+     * Explicit screen share reset(show dialog) if permission was not allowed/denied.
+     *
+     * @param {Object} obj - data with serverURL in it.
+     * @returns {void}
+     * @private
+     */
+    // _onExplicitScreenshareInit() {
+        // send notification to main process
+        //ask for screenshare permission once done it wont be asked again
+        // window.jitsiNodeAPI.ipc.send('explicit-screenshare-init');
+    // }
+
     _onExplicitIframeReload: (*) => void;
 
     /**
@@ -249,6 +265,8 @@ class Conference extends Component<Props, State> {
      * @returns {void}
      */
     _loadConference() {
+        // this._onExplicitScreenshareInit();
+
         const url = new URL(this._conference.room, this._conference.serverURL);
         const roomName = url.pathname.split('/').pop();
         const host = this._conference.serverURL.replace(/https?:\/\//, '');
@@ -286,6 +304,8 @@ class Conference extends Component<Props, State> {
                 // this._onVideoConferenceJoined(conferenceInfo);
             }
         );
+
+        // this._api.on('explicitScreenshareInit', this._onExplicitScreenshareInit);
 
         const { RemoteControl,
             setupScreenSharingRender,

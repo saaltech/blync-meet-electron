@@ -4,8 +4,11 @@ const {
     BrowserWindow,
     Menu,
     app,
-    ipcMain
+    ipcMain,
+    systemPreferences,
+    dialog
 } = require('electron');
+
 const contextMenu = require('electron-context-menu');
 const debug = require('electron-debug');
 const isDev = require('electron-is-dev');
@@ -18,6 +21,7 @@ const {
     setupPowerMonitorMain,
     setupScreenSharingMain
 } = require('jifmeet-electron-utils');
+const { openSystemPreferences } = require('electron-util');
 const path = require('path');
 const URL = require('url');
 const config = require('./app/features/config');
@@ -215,7 +219,10 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
-    setupScreenSharingMain(mainWindow, config.default.appName, pkgJson.build.appId);
+    if(setupScreenSharingMain.hasPermission()) {
+        setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+    }
+    
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
@@ -228,7 +235,83 @@ function createJitsiMeetWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
-    mainWindow.once('ready-to-show', () => {
+    mainWindow.once('ready-to-show', async () => {
+        let options = {
+            type: 'info',
+            buttons: ['Quit', 'Open system preferences'],
+            defaultId: 1,
+            cancelId: 0,
+            detail: "Jifmeet requires access to the camera, microphone, and permission to record the screen for the video call to work effectively."
+        };
+        
+        let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
+        let micPermission = systemPreferences.getMediaAccessStatus('microphone');
+
+        // Can be one of the following 
+        // 'not-determined', 'granted', 'denied', 'restricted' or 'unknown'
+        // Windows OS doesnt need permission to access camera, microphone or screen per app.
+        // Its a device leel setting on windows.
+       
+        if(cameraPermission !== 'granted') {
+            let success = await systemPreferences.askForMediaAccess('camera');
+            if(!(success === true || success === 'granted')) {
+                mainWindow.show();
+                options.message = "Jifmeet would like to access the camera";
+                dialog.showMessageBox(mainWindow, options)
+                .then(result => {
+                    if(result.response === 0) {
+                        // quit app if `Quit is clicked`
+                        app.quit();
+                        process.exit(0);
+                    }
+                    else {
+                        openSystemPreferences('security', 'Privacy_Camera');
+                        mainWindow.close();
+                    }
+                });
+                return;
+            }
+        }
+
+        if(micPermission !== 'granted') {
+            let success = await systemPreferences.askForMediaAccess('microphone');
+            if(!(success === true  || success === 'granted')) {
+                mainWindow.show();
+                options.message = "Jifmeet would like to access the microphone";
+                dialog.showMessageBox(mainWindow, options)
+                .then(result => {
+                    if(result.response === 0) {
+                        // quit app if `Quit is clicked`
+                        app.quit();
+                        process.exit(0);
+                    }
+                    else {
+                        openSystemPreferences('security', 'Privacy_Microphone');
+                        mainWindow.close();
+                    }
+                });
+                return;
+            }
+        }
+        
+        if(!setupScreenSharingMain.hasPermission()) {
+            mainWindow.show();
+            options.message = "Jifmeet would like to have access to the screen capturing/recording capability";
+            dialog.showMessageBox(mainWindow, options)
+            .then(result => {
+                if(result.response === 0) {
+                    // quit app if `Quit is clicked`
+                    app.quit();
+                    process.exit(0);
+                }
+                else {
+                    openSystemPreferences('security', 'Privacy_ScreenCapture');
+                    mainWindow.close();
+                }
+            });
+            return;
+        }
+        
         mainWindow.show();
     });
 
@@ -363,4 +446,12 @@ ipcMain.on('renderer-ready', () => {
             .webContents
             .send('protocol-data-msg', protocolDataForFrontApp);
     }
+});
+
+/**
+ * This is to notify main.js [this] that front app has asked to trigger
+ * screen share if it was denied before.
+ */
+ipcMain.on('explicit-screenshare-init', () => {
+    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
 });
