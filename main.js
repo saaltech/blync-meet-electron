@@ -256,7 +256,7 @@ function createJitsiMeetWindow() {
             let success = await systemPreferences.askForMediaAccess('camera');
             if(!(success === true || success === 'granted')) {
                 mainWindow.show();
-                options.message = "Jifmeet would like to access the camera";
+                options.message = "Jifmeet requires access to the camera";
                 dialog.showMessageBox(mainWindow, options)
                 .then(result => {
                     if(result.response === 0) {
@@ -277,7 +277,7 @@ function createJitsiMeetWindow() {
             let success = await systemPreferences.askForMediaAccess('microphone');
             if(!(success === true  || success === 'granted')) {
                 mainWindow.show();
-                options.message = "Jifmeet would like to access the microphone";
+                options.message = "Jifmeet requires access to the microphone";
                 dialog.showMessageBox(mainWindow, options)
                 .then(result => {
                     if(result.response === 0) {
@@ -296,7 +296,7 @@ function createJitsiMeetWindow() {
         
         if(!setupScreenSharingMain.hasPermission()) {
             mainWindow.show();
-            options.message = "Jifmeet would like to have access to the screen capturing/recording capability";
+            options.message = "Jifmeet requires access to the screen capture/record capability";
             dialog.showMessageBox(mainWindow, options)
             .then(result => {
                 if(result.response === 0) {
