@@ -219,10 +219,6 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
-    if(setupScreenSharingMain.hasPermission()) {
-        setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
-    }
-    
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
@@ -310,6 +306,9 @@ function createJitsiMeetWindow() {
                 }
             });
             return;
+        }
+        else {
+            setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
         }
         
         mainWindow.show();
@@ -452,6 +451,6 @@ ipcMain.on('renderer-ready', () => {
  * This is to notify main.js [this] that front app has asked to trigger
  * screen share if it was denied before.
  */
-ipcMain.on('explicit-screenshare-init', () => {
-    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
-});
+// ipcMain.on('explicit-screenshare-init', () => {
+//     setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+// });
