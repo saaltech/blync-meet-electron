@@ -242,6 +242,7 @@ function createJitsiMeetWindow() {
         
         let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
         let micPermission = systemPreferences.getMediaAccessStatus('microphone');
+        let screen = systemPreferences.getMediaAccessStatus('screen');
 
         // Can be one of the following 
         // 'not-determined', 'granted', 'denied', 'restricted' or 'unknown'
@@ -290,7 +291,7 @@ function createJitsiMeetWindow() {
             }
         }
         
-        if(!setupScreenSharingMain.hasPermission()) {
+        if(screen !== 'granted') {
             mainWindow.show();
             options.message = "Jifmeet requires access to the screen capture/record capability";
             dialog.showMessageBox(mainWindow, options)
