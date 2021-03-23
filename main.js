@@ -219,10 +219,6 @@ function createJitsiMeetWindow() {
     initPopupsConfigurationMain(mainWindow);
     setupAlwaysOnTopMain(mainWindow);
     setupPowerMonitorMain(mainWindow);
-    if(setupScreenSharingMain.hasPermission()) {
-        setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
-    }
-    
 
     mainWindow.webContents.on('new-window', (event, url, frameName) => {
         const target = getPopupTarget(url, frameName);
@@ -246,6 +242,7 @@ function createJitsiMeetWindow() {
         
         let cameraPermission = systemPreferences.getMediaAccessStatus('camera');
         let micPermission = systemPreferences.getMediaAccessStatus('microphone');
+        let screen = systemPreferences.getMediaAccessStatus('screen');
 
         // Can be one of the following 
         // 'not-determined', 'granted', 'denied', 'restricted' or 'unknown'
@@ -294,7 +291,7 @@ function createJitsiMeetWindow() {
             }
         }
         
-        if(!setupScreenSharingMain.hasPermission()) {
+        if(screen !== 'granted') {
             mainWindow.show();
             options.message = "Jifmeet requires access to the screen capture/record capability";
             dialog.showMessageBox(mainWindow, options)
@@ -310,6 +307,9 @@ function createJitsiMeetWindow() {
                 }
             });
             return;
+        }
+        else {
+            setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
         }
         
         mainWindow.show();
@@ -452,6 +452,6 @@ ipcMain.on('renderer-ready', () => {
  * This is to notify main.js [this] that front app has asked to trigger
  * screen share if it was denied before.
  */
-ipcMain.on('explicit-screenshare-init', () => {
-    setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
-});
+// ipcMain.on('explicit-screenshare-init', () => {
+//     setupScreenSharingMain.setup(mainWindow, config.default.appName, pkgJson.build.appId);
+// });
