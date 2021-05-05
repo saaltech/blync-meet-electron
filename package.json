@@ -1,6 +1,6 @@
 {
   "name": "jifmeet-electron",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Electron application for Jifmeet",
   "main": "./build/main.js",
   "productName": "Jifmeet",
@@ -80,7 +80,8 @@
       "signingHashAlgorithms": [
         "sha256"
       ],
-      "publisherName": "SAAL Operating Systems - Sole Proprietorship LLC",
+      "publisherName": "SAAL OPERATING SYSTEMS - SOLE PROPRIETORSHIP L.L.C.",
+      "certificateSubjectName": "SAAL OPERATING SYSTEMS - SOLE PROPRIETORSHIP L.L.C.",
       "signAndEditExecutable": true
     },
     "directories": {
