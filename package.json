@@ -76,11 +76,11 @@
           "target": "nsis"
         }
       ],
-      "certificateFile": "C:\\Users\\jenkins\\.ssh\\saal-cs-cert-withkey.cer",
       "signingHashAlgorithms": [
         "sha256"
       ],
       "publisherName": "SAAL OPERATING SYSTEMS - SOLE PROPRIETORSHIP L.L.C.",
+      "certificateSubjectName": "SAAL OPERATING SYSTEMS - SOLE PROPRIETORSHIP L.L.C.",
       "signAndEditExecutable": true
     },
     "directories": {
