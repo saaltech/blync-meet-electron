@@ -76,7 +76,7 @@
           "target": "nsis"
         }
       ],
-      "certificateFile": "C:\\Users\\jenkins\\.ssh\\saal-cs-cert-withkey.pfx",
+      "certificateFile": "C:\\Users\\jenkins\\.ssh\\saal-cs-cert-withkey.cer",
       "signingHashAlgorithms": [
         "sha256"
       ],
