@@ -222,6 +222,16 @@ class Home extends Component<Props, State> {
         });
 
         this._api.on('explicitIframeReload', this._onExplicitIframeReload);
+        this._api.on('liveMessage', ({
+                from,
+                id,
+                message,
+                stamp
+            }) => {
+            new Notification(`Message from ${from}`, {
+                body: message
+            });
+        });
 
         const { RemoteControl,
             setupScreenSharingRender,
